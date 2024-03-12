@@ -1,6 +1,11 @@
 # APP
 
-Gympass style app.
+Gympass style api under development.
+
+Technologies being used: Typescript, Node.js, Fastify, Prisma ORM, Vitest, Docker, Zod and Yarn.
+
+Strategies being used: TDD, DDD, S.O.L.I.D and Clean Code.
+
 
 ## RFs (Requisitos funcionais)
 
