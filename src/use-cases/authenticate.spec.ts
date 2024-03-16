@@ -1,15 +1,15 @@
 import { expect, describe, it, beforeEach } from 'vitest';
-import { inMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
+import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
 import { AuthenticateUseCase } from './authenticate';
 import { hash } from 'bcryptjs';
 import { InvalidCredentialsError } from './errors/invalid-credentials-error';
 
-let usersRepository: inMemoryUsersRepository;
+let usersRepository: InMemoryUsersRepository;
 let sut: AuthenticateUseCase;
 
 describe('Register Use Case', () => {
   beforeEach(() => {
-    usersRepository = new inMemoryUsersRepository();
+    usersRepository = new InMemoryUsersRepository();
     sut = new AuthenticateUseCase(usersRepository);
   });
 
@@ -33,8 +33,6 @@ describe('Register Use Case', () => {
       email: 'john@doe.com',
       password: '123456'
     })).rejects.toBeInstanceOf(InvalidCredentialsError);
-
-
   });
 
   it('should not be able to authenticate with wrong password', async () => {

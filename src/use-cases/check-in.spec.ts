@@ -1,26 +1,28 @@
 import { expect, describe, it, beforeEach, vi, afterEach } from 'vitest';
-import { inMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository';
+import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository';
 import { CheckInUseCase } from './check-in';
-import { inMemoryGymsRepository } from '@/repositories/in-memory/in-memory-gyms-repository';
+import { InMemoryGymsRepository } from '@/repositories/in-memory/in-memory-gyms-repository';
 import { Decimal } from '@prisma/client/runtime/library';
+import { MaxNumberOfCheckInsError } from './errors/max-number-of-check-ins-error';
+import { MaxDistanceError } from './errors/max-distance-error';
 
-let checkInsRepository: inMemoryCheckInsRepository;
-let gymsRepository: inMemoryGymsRepository;
+let checkInsRepository: InMemoryCheckInsRepository;
+let gymsRepository: InMemoryGymsRepository;
 let sut: CheckInUseCase;
 
 describe('Check-in Use Case', () => {
-  beforeEach(() => {
-    checkInsRepository = new inMemoryCheckInsRepository();
-    gymsRepository = new inMemoryGymsRepository();
+  beforeEach(async () => {
+    checkInsRepository = new InMemoryCheckInsRepository();
+    gymsRepository = new InMemoryGymsRepository();
     sut = new CheckInUseCase(checkInsRepository, gymsRepository);
 
-    gymsRepository.items.push({
+    await gymsRepository.create({
       id: 'gym-id',
-      title: 'Soras Gym',
-      description: 'The best gym in the world from Soras',
-      phone: '',
-      latitude: new Decimal(-23.1034915),
-      longitude: new Decimal(-47.1793731)
+      title: 'Javascript Gym',
+      description: null,
+      phone: null,
+      latitude: -23.103687,
+      longitude: -47.179034,
     });
 
     vi.useFakeTimers();
@@ -58,7 +60,7 @@ describe('Check-in Use Case', () => {
         userLatitude: -23.103687,
         userLongitude: -47.179034
       })
-    ).rejects.toBeInstanceOf(Error);
+    ).rejects.toBeInstanceOf(MaxNumberOfCheckInsError);
   });
 
   it('should be able to check in a different day', async () => {
@@ -98,7 +100,6 @@ describe('Check-in Use Case', () => {
       userId: 'user-id',
       userLatitude: -23.103687,
       userLongitude: -47.179034
-    })).rejects.toBeInstanceOf(Error);
-
+    })).rejects.toBeInstanceOf(MaxDistanceError);
   });
 });

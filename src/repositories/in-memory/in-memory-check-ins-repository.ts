@@ -3,7 +3,7 @@ import { CheckInsRepository } from '../check-ins-repository';
 import { randomUUID } from 'node:crypto';
 import dayjs from 'dayjs';
 
-export class inMemoryCheckInsRepository implements CheckInsRepository {
+export class InMemoryCheckInsRepository implements CheckInsRepository {
   public items: CheckIn[] = [];
 
   async findByUserIdOnDate(userId: string, date: Date) {

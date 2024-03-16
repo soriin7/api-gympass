@@ -1,6 +1,6 @@
 export interface Coordinate {
-  latitude: number;
-  longitude: number;
+  latitude: number
+  longitude: number
 }
 
 export function getDistanceBetweenCoordinates(
