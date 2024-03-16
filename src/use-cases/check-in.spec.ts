@@ -19,8 +19,8 @@ describe('Check-in Use Case', () => {
       title: 'Soras Gym',
       description: 'The best gym in the world from Soras',
       phone: '',
-      latitude: new Decimal(0),
-      longitude: new Decimal(0)
+      latitude: new Decimal(-23.1034915),
+      longitude: new Decimal(-47.1793731)
     });
 
     vi.useFakeTimers();
@@ -34,8 +34,8 @@ describe('Check-in Use Case', () => {
     const { checkIn } = await sut.execute({
       gymId: 'gym-id',
       userId: 'user-id',
-      userLatitude: -23.5717125,
-      userLongitude: -46.6354195
+      userLatitude: -23.103687,
+      userLongitude: -47.179034
     });
 
     expect(checkIn.id).toEqual(expect.any(String));
@@ -47,16 +47,16 @@ describe('Check-in Use Case', () => {
     await sut.execute({
       gymId: 'gym-id',
       userId: 'user-id',
-      userLatitude: -23.5717125,
-      userLongitude: -46.6354195
+      userLatitude: -23.103687,
+      userLongitude: -47.179034
     });
 
     await expect(() =>
       sut.execute({
         gymId: 'gym-id',
         userId: 'user-id',
-        userLatitude: -23.5717125,
-        userLongitude: -46.6354195
+        userLatitude: -23.103687,
+        userLongitude: -47.179034
       })
     ).rejects.toBeInstanceOf(Error);
   });
@@ -67,8 +67,8 @@ describe('Check-in Use Case', () => {
     await sut.execute({
       gymId: 'gym-id',
       userId: 'user-id',
-      userLatitude: -23.5717125,
-      userLongitude: -46.6354195
+      userLatitude: -23.103687,
+      userLongitude: -47.179034
     });
 
     vi.setSystemTime(new Date(2022, 0, 21, 8, 0, 0));
@@ -76,10 +76,29 @@ describe('Check-in Use Case', () => {
     const { checkIn } = await sut.execute({
       gymId: 'gym-id',
       userId: 'user-id',
-      userLatitude: -23.5717125,
-      userLongitude: -46.6354195
+      userLatitude: -23.103687,
+      userLongitude: -47.179034
     });
 
     expect(checkIn.id).toEqual(expect.any(String));
+  });
+
+  it('should not be able to check-in on distant gym', async () => {
+    gymsRepository.items.push({
+      id: 'gym-id2',
+      title: 'GH Fit',
+      description: 'GH Fit academia cara',
+      phone: '',
+      latitude: new Decimal(-23.0906045),
+      longitude: new Decimal(-47.1840844)
+    });
+
+    await expect(() => sut.execute({
+      gymId: 'gym-id2',
+      userId: 'user-id',
+      userLatitude: -23.103687,
+      userLongitude: -47.179034
+    })).rejects.toBeInstanceOf(Error);
+
   });
 });
