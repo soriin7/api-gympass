@@ -13,12 +13,12 @@ Strategies being used: TDD, DDD, S.O.L.I.D and Clean Code.
 - [X] Deve ser possível se autenticar;
 - [X] Deve ser possível obter o perfil de um usuário logado;
 - [ ] Deve ser possível obter o número de check-ins realizados pelo usuário logado;
-- [ ] Deve ser possível o usuário obter seru histórico de check-ins;
+- [ ] Deve ser possível o usuário obter seu histórico de check-ins;
 - [ ] Deve ser possível o usuário buscar academias próximas;
 - [ ] Deve ser possível o usuário buscar academias pelo nome;
 - [X] Deve ser possível o usuário realizar check-in em uma academia;
 - [ ] Deve ser possível validar o check-in de um usuário;
-- [ ] Deve ser possível cadastrar uma academia;
+- [X] Deve ser possível cadastrar uma academia;
 
 ## RNs (Regras de negócio)
 
